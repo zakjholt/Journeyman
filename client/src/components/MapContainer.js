@@ -9,16 +9,11 @@ class MapContainer extends Component {
 
     componentWillReceiveProps(nextProps) {
         // center map on most recently added destination
-        if (this.props.route.length === 1) {
+        if (nextProps.route.length === 1) {
           this.map.panTo(nextProps.center)
+          var marker = new window.google.maps.Marker({position: nextProps.route[0].geometry.location, title: nextProps.route[0].name})
+          marker.setMap(this.map);
         }
-
-
-        // iterates through the state and drops a marker at each city
-        nextProps.route.forEach((place) => {
-            var marker = new window.google.maps.Marker({position: place.geometry.location, title: place.name})
-            marker.setMap(this.map);
-        })
 
         if (nextProps.route.length > 1) {
           let firstPoint = nextProps.route[0].geometry.location;
@@ -41,6 +36,9 @@ class MapContainer extends Component {
           })
         }
 
+        this.directionsDisplay.setMap(this.map);
+
+
 
 
     }
@@ -51,7 +49,6 @@ class MapContainer extends Component {
             center: this.props.center,
             zoom: 5
         });
-        this.directionsDisplay.setMap(this.map);
     }
 
     render() {

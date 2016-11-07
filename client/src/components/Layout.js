@@ -7,8 +7,8 @@ import POIBar from './POIBar';
 
 class Layout extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -19,7 +19,8 @@ class Layout extends Component {
                 lng: 150.6
             },
             circuit: true,
-            selectedCity: undefined
+            selectedCity: undefined,
+            route: this.props.route
         }
 
     }
@@ -41,9 +42,12 @@ class Layout extends Component {
 
     handleDelete(index) {
       this.context.store.dispatch({type: 'DELETE_CITY', index: index});
-      this.setState({selectedCity: undefined})
+      this.setState({selectedCity: undefined, center: this.props.route[0].geometry.location})
     }
 
+    componentWillReceiveProps(nextProps) {
+      this.setState({route: nextProps.route})
+    }
     render() {
         return (
             <div className="Layout-container">
@@ -55,8 +59,8 @@ class Layout extends Component {
                         <li>Sign-up</li>
                     </ul>
                 </div>
-                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.props.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} handleDelete={this.handleDelete} />
-                <MapContainer circuit={this.state.circuit} route={this.props.route} center={this.state.center}/>
+                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} handleDelete={this.handleDelete} />
+                <MapContainer circuit={this.state.circuit} route={this.state.route} center={this.state.center}/>
                 <POIBar city={this.state.selectedCity} />
             </div>
         );
