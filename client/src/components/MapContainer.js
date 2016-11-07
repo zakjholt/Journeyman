@@ -1,41 +1,64 @@
 import React, {Component} from 'react';
 
-
-var labels = 'ABCDEFGH'
-
+var directionsService = new window.google.maps.DirectionsService()
 class MapContainer extends Component {
 
-  shouldComponentUpdate() {
-    return false;
-  }
+    shouldComponentUpdate() {
+        return false;
+    }
 
-  componentWillReceiveProps(nextProps) {
-    this.map.panTo(nextProps.center)
-    this.props.route.map((place) => {
-      var marker = new window.google.maps.Marker({
-        position: place.geometry.location,
-        title: place.name,
-        label: labels[this.props.route.indexOf(place)]
-      })
-      marker.setMap(this.map);
-    })
+    componentWillReceiveProps(nextProps) {
+        // center map on most recently added destination
+        if (this.props.route.length === 1) {
+          this.map.panTo(nextProps.center)
+        }
 
-  }
 
-  componentDidMount() {
-    this.map = new window.google.maps.Map(this.refs.map, {
-      center: this.props.center,
-      zoom: 8
-    });
-  }
+        // iterates through the state and drops a marker at each city
+        nextProps.route.forEach((place) => {
+            var marker = new window.google.maps.Marker({position: place.geometry.location, title: place.name})
+            marker.setMap(this.map);
+        })
+
+        if (nextProps.route.length > 1) {
+          let firstPoint = nextProps.route[0].geometry.location;
+          let lastPoint = nextProps.route[nextProps.route.length-1].geometry.location;
+          let waypoints = [];
+          for (var i = 1; i < nextProps.route.length; i++) {
+            waypoints.push({location: nextProps.route[i].formatted_address})
+          }
+          let request = {
+            origin: firstPoint,
+            destination: nextProps.circuit ? firstPoint : lastPoint,
+            travelMode: 'DRIVING',
+            waypoints: waypoints
+          };
+          directionsService.route(request, (result, status) => {
+            if (status === 'OK') {
+              this.directionsDisplay.setDirections(result);
+              // Result has all of the route details like distance
+            }
+          })
+        }
+
+
+
+    }
+
+    componentDidMount() {
+        this.directionsDisplay = new window.google.maps.DirectionsRenderer();
+        this.map = new window.google.maps.Map(this.refs.map, {
+            center: this.props.center,
+            zoom: 5
+        });
+        this.directionsDisplay.setMap(this.map);
+    }
 
     render() {
         return (
             <div className='Map-container'>
 
-                <div id="map" ref="map">
-
-                </div>
+                <div id="map" ref="map"></div>
 
             </div>
         )

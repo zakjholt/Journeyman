@@ -10,6 +10,10 @@ function storeReducer(state = initialState, action) {
       return Object.assign({}, state, {
         route: state.route.concat(action.cityObject)
       })
+    case 'DELETE_CITY':
+      let index = action.index
+      return Object.assign({}, state, {route: state.route.filter((item) => state.route.indexOf(item) !== index)})
+
     default:
       return state;
   }
