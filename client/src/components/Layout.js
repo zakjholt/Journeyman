@@ -13,14 +13,17 @@ class Layout extends Component {
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleOptimize = this.handleOptimize.bind(this);
         this.state = {
             center: {
-                lat: -34,
-                lng: 150.6
+                lat: 40,
+                lng: -74
             },
             circuit: true,
             selectedCity: undefined,
-            route: this.props.route
+            selectedCityLocation: undefined,
+            route: this.props.route,
+            optimize: false
         }
 
     }
@@ -28,25 +31,34 @@ class Layout extends Component {
     handleSubmit(place) {
         this.context.store.dispatch({type: 'ADD_CITY', cityObject: place});
         this.setState({center: place.geometry.location})
+        document.getElementsByTagName('input')[0].value = ''
 
     }
 
     handleOptionChange(b) {
-      this.setState({circuit: b})
+        this.setState({circuit: b})
     }
 
     handleClick(index) {
-      this.setState({selectedCity: this.props.route[index].name})
+        this.setState({
+            selectedCityLocation: `${this.props.route[index].geometry.location.lat()}, ${this.props.route[index].geometry.location.lng()}`,
+            selectedCity: this.props.route[index].name
+        });
 
+    }
+
+    handleOptimize() {
+        console.log('handling optimize')
+        this.setState({optimize: !this.state.optimize})
     }
 
     handleDelete(index) {
-      this.context.store.dispatch({type: 'DELETE_CITY', index: index});
-      this.setState({selectedCity: undefined, center: this.props.route[0].geometry.location})
+        this.context.store.dispatch({type: 'DELETE_CITY', index: index});
+        this.setState({selectedCity: undefined, center: this.props.route[0].geometry.location})
     }
 
     componentWillReceiveProps(nextProps) {
-      this.setState({route: nextProps.route})
+        this.setState({route: nextProps.route})
     }
     render() {
         return (
@@ -59,9 +71,21 @@ class Layout extends Component {
                         <li>Sign-up</li>
                     </ul>
                 </div>
-                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} handleDelete={this.handleDelete} />
-                <MapContainer circuit={this.state.circuit} route={this.state.route} center={this.state.center}/>
-                <POIBar city={this.state.selectedCity} />
+                <Sidebar
+                    handleClick={this.handleClick}
+                    circuit={this.state.circuit}
+                    route={this.state.route}
+                    handleSubmit={this.handleSubmit}
+                    handleOptionChange={this.handleOptionChange}
+                    handleDelete={this.handleDelete}
+                    handleOptimize={this.handleOptimize}
+                    optimize={this.state.optimize} />
+                <MapContainer
+                    circuit={this.state.circuit}
+                    route={this.state.route}
+                    center={this.state.center}
+                    optimize={this.state.optimize} />
+                <POIBar city={this.state.selectedCity} location={this.state.selectedCityLocation}/>
             </div>
         );
     }

@@ -12,6 +12,7 @@
     "react-google-autocomplete": "^1.0.7",
     "react-redux": "^4.4.5",
     "redux": "^3.6.0",
+    "redux-persist": "^4.0.0-alpha7",
     "superagent": "^2.3.0"
   },
   "scripts": {

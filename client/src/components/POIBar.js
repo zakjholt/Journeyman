@@ -11,9 +11,9 @@ class POIBar extends Component {
     }
     componentWillReceiveProps(nextProps) {
       //Send a foursquare request with nextProps.city
-      if (nextProps.city) {
+      if (nextProps.location) {
         let params = {
-          near: nextProps.city,
+          ll: nextProps.location,
           client_id: 'G1YOR4SFYW2FWKSYKWRZ2WSSBHM50KLON2Q5NDFDGNUYVGMT',
           client_secret: 'WYK2E3IWCQPPIXJCQRKUOJSHVA1PNAJ1Y230MROWITCWEBIJ',
           v: '20161106',
@@ -35,7 +35,7 @@ class POIBar extends Component {
     render() {
         return (
             <div className="POIBar-container">
-              <h2> { this.state.POIs.length ? `Things to do in: ${this.props.city}` : 'No city selected yet'} </h2>
+              <h3> { this.state.POIs.length ? `Top picks in ${this.props.city}` : 'No city selected yet'} </h3>
               {this.state.POIs.length ? this.state.POIs.map( (place) => {return <POI key={this.state.POIs.indexOf(place)} number={this.state.POIs.indexOf(place) + 1} place={place} />}) : null}
             </div>
         );

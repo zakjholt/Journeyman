@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist';
 
 const initialState = {
   route: [
@@ -19,6 +20,6 @@ function storeReducer(state = initialState, action) {
   }
 }
 
-const store = createStore (storeReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-
-export default store
+const store = createStore(storeReducer, undefined, autoRehydrate(), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+persistStore(store);
+export default store;
