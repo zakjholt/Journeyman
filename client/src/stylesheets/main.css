@@ -7,10 +7,12 @@ h1, h2, h3, h4, h5 {
     font-family: 'Roboto'
 }
 
+
 /*button {
     background: azure;
     box-shadow: 0 0 10px 1px;
 }*/
+
 
 /*********************
 Header
@@ -86,6 +88,7 @@ Sidebar
     left: 0;
 }
 
+
 /*********************
 Map
 *********************/
@@ -118,6 +121,7 @@ POI Bar
 .POI {
     margin: 10px 0
 }
+
 .POI h4, .POI p {
     margin: 0
 }
