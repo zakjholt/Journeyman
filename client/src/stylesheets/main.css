@@ -7,10 +7,12 @@ h1, h2, h3, h4, h5 {
     font-family: 'Roboto'
 }
 
+
 /*button {
     background: azure;
     box-shadow: 0 0 10px 1px;
 }*/
+
 
 /*********************
 Header
@@ -68,16 +70,12 @@ Sidebar
     width: 50%;
 }
 
-.toggleButton {
-    margin-top: 100px;
-}
-
 .RouteItem {
     position: relative;
 }
 
 .RouteItem h3 {
-    margin-bottom: 0
+    margin-bottom: 0;
 }
 
 .deleteButton {
@@ -85,6 +83,12 @@ Sidebar
     top: 0;
     left: 0;
 }
+
+.saveTripButton {
+    display: block;
+    margin: 200px auto 10px;
+}
+
 
 /*********************
 Map
@@ -118,6 +122,28 @@ POI Bar
 .POI {
     margin: 10px 0
 }
+
 .POI h4, .POI p {
-    margin: 0
+    margin: 0;
+}
+
+
+/*********************
+My Trips
+*********************/
+
+.savedTrips {
+    list-style: none;
+    padding: 10px;
+    text-align: center;
+}
+
+.savedTrip {
+    margin: 10px 0 15px;
+}
+
+.savedTrip:hover {
+    background: black;
+    color: white;
+    cursor: pointer;
 }

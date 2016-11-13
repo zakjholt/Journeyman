@@ -14,12 +14,15 @@ function storeReducer(state = initialState, action) {
     case 'DELETE_CITY':
       let index = action.index
       return Object.assign({}, state, {route: state.route.filter((item) => state.route.indexOf(item) !== index)})
-
+    case 'SET_TRIP':
+      return Object.assign({}, {route: action.route})
+    case 'LOGOUT':
+      return Object.assign({route:[]})
     default:
       return state;
   }
 }
 
-const store = createStore(storeReducer, undefined, autoRehydrate(), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const store = createStore(storeReducer, autoRehydrate(), undefined, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 persistStore(store);
 export default store;
