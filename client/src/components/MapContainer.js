@@ -4,34 +4,37 @@ var directionsService = new window.google.maps.DirectionsService()
 class MapContainer extends Component {
 
     renderDirections(nextProps) {
-        let firstPoint = nextProps.route[0].geometry.location;
-        let lastPoint = nextProps.route[nextProps.route.length - 1].geometry.location;
-        let waypoints = [];
-        for (var i = 1; i < nextProps.route.length; i++) {
-            waypoints.push({location: nextProps.route[i].formatted_address})
+        if (nextProps.route.length) {
+          let firstPoint = nextProps.route[0].geometry.location;
+          let lastPoint = nextProps.route[nextProps.route.length - 1].geometry.location;
+          let waypoints = [];
+          for (var i = 1; i < nextProps.route.length; i++) {
+              waypoints.push({location: nextProps.route[i].formatted_address})
+          }
+          let request = {
+              origin: firstPoint,
+              destination: nextProps.circuit
+                  ? firstPoint
+                  : lastPoint,
+              travelMode: 'DRIVING',
+              waypoints: waypoints,
+              optimizeWaypoints: nextProps.optimize
+          };
+          directionsService.route(request, (result, status) => {
+              if (status === 'OK') {
+                  this.directionsDisplay.setDirections(result);
+                  // Result has all of the route details like distance
+                  // console.log(result)
+              }
+          })
+          this.directionsDisplay.setMap(this.map);
         }
-        let request = {
-            origin: firstPoint,
-            destination: nextProps.circuit
-                ? firstPoint
-                : lastPoint,
-            travelMode: 'DRIVING',
-            waypoints: waypoints,
-            optimizeWaypoints: this.props.optimize
-        };
-        directionsService.route(request, (result, status) => {
-            if (status === 'OK') {
-                this.directionsDisplay.setDirections(result);
-                // Result has all of the route details like distance
-                // console.log(result)
-            }
-        })
-        this.directionsDisplay.setMap(this.map);
+
     }
 
     componentWillReceiveProps(nextProps) {
         // workaround for directions bug if you delete points before there are enough
-        if (nextProps.route.length < 2 && this.props.route.length > nextProps.route.length) {
+        if (nextProps.length && nextProps.route.length < 2 && this.props.route.length > nextProps.route.length) {
           window.location.href = '/';
         }
 

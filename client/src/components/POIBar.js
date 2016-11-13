@@ -15,7 +15,7 @@ class POIBar extends Component {
         //Send a foursquare request with nextProps.city
         if (nextProps.location) {
             let params = {
-                ll: nextProps.location,
+                near: nextProps.location,
                 client_id: 'G1YOR4SFYW2FWKSYKWRZ2WSSBHM50KLON2Q5NDFDGNUYVGMT',
                 client_secret: 'WYK2E3IWCQPPIXJCQRKUOJSHVA1PNAJ1Y230MROWITCWEBIJ',
                 v: '20161106',
