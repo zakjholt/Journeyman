@@ -4,7 +4,7 @@ var directionsService = new window.google.maps.DirectionsService()
 class MapContainer extends Component {
 
     renderDirections(nextProps) {
-        if (nextProps.route.length) {
+        if (nextProps.route) {
           let firstPoint = nextProps.route[0].geometry.location;
           let lastPoint = nextProps.route[nextProps.route.length - 1].geometry.location;
           let waypoints = [];
@@ -34,21 +34,23 @@ class MapContainer extends Component {
 
     componentWillReceiveProps(nextProps) {
         // workaround for directions bug if you delete points before there are enough
-        if (nextProps.length && nextProps.route.length < 2 && this.props.route.length > nextProps.route.length) {
-          window.location.href = '/';
-        }
+        if (nextProps.route) {
+          if (nextProps.route.length < 2 && this.props.route.length > nextProps.route.length) {
+            window.location.href = '/';
+          }
 
-        if (nextProps.route.length === 1) {
-            this.map.panTo(nextProps.center)
-            this.firstMarker = new window.google.maps.Marker({position: nextProps.route[0].geometry.location, title: nextProps.route[0].name})
-            this.firstMarker.setMap(this.map);
-        }
+          if (nextProps.route.length === 1) {
+              this.map.panTo(nextProps.center)
+              this.firstMarker = new window.google.maps.Marker({position: nextProps.route[0].geometry.location, title: nextProps.route[0].name})
+              this.firstMarker.setMap(this.map);
+          }
 
-        if (nextProps.route.length > 1 || nextProps.route.length < this.props.route.length) {
-            this.renderDirections(nextProps);
-        }
+          if (nextProps.route.length > 1 || nextProps.route.length < this.props.route.length) {
+              this.renderDirections(nextProps);
+          }
 
-        this.directionsDisplay.setMap(this.map);
+          this.directionsDisplay.setMap(this.map);
+        }
     }
 
 

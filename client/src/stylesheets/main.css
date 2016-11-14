@@ -127,6 +127,10 @@ POI Bar
     margin: 0;
 }
 
+.fa:hover {
+    cursor: pointer;
+}
+
 
 /*********************
 My Trips

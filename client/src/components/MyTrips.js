@@ -29,7 +29,9 @@ class MyTrips extends Component {
         <div style={boxStyle}>
           <ul className='savedTrips'>
           {this.props.trips.map((trip) => {
-            return <li><h3 className='savedTrip' onClick={() => {this.props.selectTrip(trip.route)}}>{trip.tripName}</h3></li>
+            return <li><button onClick={() => {
+              this.props.deleteTrip(this.props.trips.indexOf(trip))
+            }}>X</button><h3 className='savedTrip' onClick={() => {this.props.selectTrip(trip.route)}}>{trip.tripName}</h3></li>
           })}
           </ul>
 

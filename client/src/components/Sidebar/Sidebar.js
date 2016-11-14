@@ -36,7 +36,7 @@ class Sidebar extends Component {
                 </form>
 
                 {this.props.route ? this.props.route.map((place) => {
-                    return <RouteItem key={this.props.route.indexOf(place)} handleDelete={this.props.handleDelete} handleClick={this.props.handleClick} index={this.props.route.indexOf(place)} name={place.name}/>
+                    return <RouteItem key={this.props.route.indexOf(place)} handleDelete={this.props.handleDelete} handleClick={this.props.handleClick} moveItemUp={this.props.moveItemUp} moveItemDown={this.props.moveItemDown} index={this.props.route.indexOf(place)} name={place.name}/>
                 }) : null}
                 <button className="saveTripButton" onClick={() => this.props.saveTrip()}>Save Trip</button>
                 <button className='toggleButton' onClick={() => {

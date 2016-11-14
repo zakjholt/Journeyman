@@ -48,7 +48,7 @@ class POIBar extends Component {
                 </h3>
                 {this.state.POIs.length
                     ? this.state.POIs.map((place) => {
-                        return <POI key={this.state.POIs.indexOf(place)} number={this.state.POIs.indexOf(place) + 1} place={place}/>
+                        return <POI key={this.state.POIs.indexOf(place)} number={this.state.POIs.indexOf(place) + 1} toggleFavorite={this.props.toggleFavorite} favorite={() => {return this.props.favoritePlaces.indexOf(place) === -1 ? false : true}} place={place}/>
                     })
                     : null}
             </div>
