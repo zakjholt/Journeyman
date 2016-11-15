@@ -10,6 +10,12 @@ class RouteItem extends Component {
                 <button className='deleteButton' onClick={() => {
                     this.props.handleDelete(this.props.index)
                 }}>X</button>
+                {/* <button className='upButton' onClick={() => {
+                    this.props.moveItemUp(this.props.index)
+                }}>&uarr;</button>
+                <button className='downButton' onClick={() => {
+                    this.props.moveItemDown(this.props.index)
+                }}>&darr;</button> */}
             </div>
 
         );

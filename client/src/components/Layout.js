@@ -19,6 +19,10 @@ class Layout extends Component {
         this.saveTrip = this.saveTrip.bind(this);
         this.closeTrips = this.closeTrips.bind(this);
         this.selectTrip = this.selectTrip.bind(this);
+        this.deleteTrip = this.deleteTrip.bind(this);
+        // this.moveItemUp = this.moveItemUp.bind(this);
+        // this.moveItemDown = this.moveItemDown.bind(this);
+        this.toggleFavorite = this.toggleFavorite.bind(this);
         this.state = {
             center: {
                 lat: 40,
@@ -28,6 +32,7 @@ class Layout extends Component {
             selectedCity: undefined,
             selectedCityLocation: undefined,
             route: this.props.route,
+            favoritePlaces: this.props.favoritePlaces,
             optimize: false,
             loggedIn: localStorage.userToken
                 ? true
@@ -66,6 +71,20 @@ class Layout extends Component {
         this.setState({selectedCity: undefined, center: this.props.route[0].geometry.location})
     }
 
+    // moveItemUp(index) {
+    //   this.context.store.dispatch({type: 'MOVE_ITEM_UP', index: index });
+    // }
+    //
+    // moveItemDown(index) {
+    //   this.context.store.dispatch({type: 'MOVE_ITEM_DOWN', index: index });
+    // }
+
+    toggleFavorite(place) {
+      // figure out how to deal with favorite places
+      this.context.store.dispatch({type: 'TOGGLE_FAVORITE', place: place})
+
+    }
+
     saveTrip() {
         if (this.state.loggedIn) {
             let tripName = prompt('Name for the trip');
@@ -75,7 +94,8 @@ class Layout extends Component {
             request.post('/trips').send({
                 clientID: JSON.parse(localStorage.userProfile).clientID,
                 tripName: tripName,
-                route: this.state.route
+                route: this.state.route,
+                favoritePlaces: this.state.favoritePlaces
             }).end((err, res) => {
                 if (err) {
                     console.log(err.status, err)
@@ -96,7 +116,7 @@ class Layout extends Component {
           request.get(`/trips/${JSON.parse(localStorage.userProfile).clientID}`).end((err, res) => {
             if (!err) {
               console.log(res);
-              this.setState({userTrips: res.body})
+              this.setState({userTrips: res.body.trips, favoritePlaces: res.body.favoritePlaces})
             }
           })
         }
@@ -106,6 +126,15 @@ class Layout extends Component {
         this.setState({tripsOpen: false})
     }
 
+    deleteTrip(tripIndex) {
+      request.del(`/trips/${JSON.parse(localStorage.userProfile).clientID}/${tripIndex}`).end((err, res) => {
+        if (!err) {
+          console.log(res);
+          this.setState({userTrips: res.body})
+        }
+      })
+    }
+
     selectTrip(route) {
       this.context.store.dispatch({type:'SET_TRIP', route: route});
       this.closeTrips();
@@ -113,7 +142,7 @@ class Layout extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({route: nextProps.route})
+        this.setState({route: nextProps.route, favoritePlaces: nextProps.favoritePlaces})
     }
 
     componentDidMount() {
@@ -179,10 +208,10 @@ class Layout extends Component {
 
                     </ul>
                 </div>
-                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} handleDelete={this.handleDelete} handleOptimize={this.handleOptimize} optimize={this.state.optimize} saveTrip={this.saveTrip}/>
+                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} moveItemUp={this.moveItemDown} moveItemDown={this.moveItemDown} handleDelete={this.handleDelete} handleOptimize={this.handleOptimize} optimize={this.state.optimize} saveTrip={this.saveTrip}/>
                 <MapContainer circuit={this.state.circuit} route={this.state.route} center={this.state.center} optimize={this.state.optimize}/>
-                <POIBar city={this.state.selectedCity} location={this.state.selectedCityLocation}/>
-                <MyTrips isOpen={this.state.tripsOpen} closeTrips={this.closeTrips} trips={this.state.userTrips} selectTrip={this.selectTrip}/>
+                <POIBar city={this.state.selectedCity} location={this.state.selectedCityLocation} favoritePlaces={this.state.favoritePlaces} toggleFavorite={this.toggleFavorite}/>
+                <MyTrips isOpen={this.state.tripsOpen} closeTrips={this.closeTrips} trips={this.state.userTrips} selectTrip={this.selectTrip} deleteTrip={this.deleteTrip}/>
             </div>
         );
 
@@ -193,5 +222,5 @@ Layout.contextTypes = {
 }
 
 export default connect((state) => {
-    return {route: state.route}
+    return {route: state.route, favoritePlaces: state.favoritePlaces}
 })(Layout);

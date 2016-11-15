@@ -9,7 +9,8 @@ mongoose.connect('mongodb://journey:far@ds031597.mlab.com:31597/journeyman');
 
 var User = mongoose.model('User', {
   clientID: String,
-  trips: []
+  trips: [],
+  favoritePlaces: []
 })
 
 //Express setup
@@ -48,6 +49,16 @@ app.post('/trips', (req, res) => {
       if (!existing) {
         user.trips.push(trip);
       }
+      // Handle the favorite places
+      if (user.favoritePlaces != req.body.favoritePlaces) {
+        let difference = [];
+        req.body.favoritePlaces.forEach((place) => {
+          if (user.favoritePlaces.indexOf(place) === -1) {
+            difference.push(place)
+          }
+        })
+        user.favoritePlaces.push(difference)
+      }
       user.save((err) => {
         if (err)
           handleError(res, err);
@@ -72,7 +83,18 @@ app.get('/trips/:clientID', (req, res) => {
   User.findOne({'clientID': req.params.clientID}, (err, user) => {
     if (err) console.log(err);
     if (user) {
-      console.log(user)
+      res.send(user)
+    }
+  })
+})
+
+//User deletes a trip
+
+app.delete('/trips/:clientID/:tripIndex', (req, res) => {
+  User.findOne({'clientID': req.params.clientID}, (err, user) => {
+    if (!err) {
+      user.trips.splice(req.params.tripIndex, 1)
+      user.save();
       res.send(user.trips)
     }
   })
