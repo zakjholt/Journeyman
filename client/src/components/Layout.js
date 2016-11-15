@@ -82,6 +82,7 @@ class Layout extends Component {
     toggleFavorite(place) {
       // figure out how to deal with favorite places
       this.context.store.dispatch({type: 'TOGGLE_FAVORITE', place: place})
+
     }
 
     saveTrip() {

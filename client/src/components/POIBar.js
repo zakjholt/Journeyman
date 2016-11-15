@@ -4,6 +4,27 @@ import request from 'superagent';
 
 import POI from './POI'
 
+// Array.prototype.contains = Array.prototype.contains || function(obj)
+// {
+//   var i, l = this.length;
+//   for (i = 0; i < l; i++)
+//   {
+//     if (this[i] == obj) return true;
+//   }
+//   return false;
+// };
+
+function containsObject(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+        if (list[i] === obj) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 class POIBar extends Component {
     constructor() {
         super()
@@ -48,7 +69,7 @@ class POIBar extends Component {
                 </h3>
                 {this.state.POIs.length
                     ? this.state.POIs.map((place) => {
-                        return <POI key={this.state.POIs.indexOf(place)} number={this.state.POIs.indexOf(place) + 1} toggleFavorite={this.props.toggleFavorite} favorite={() => {return this.props.favoritePlaces.indexOf(place) === -1 ? false : true}} place={place}/>
+                        return <POI key={this.state.POIs.indexOf(place)} favorite={containsObject(place, this.props.favoritePlaces) ? true : false} number={this.state.POIs.indexOf(place) + 1} toggleFavorite={this.props.toggleFavorite} place={place}/>
                     })
                     : null}
             </div>

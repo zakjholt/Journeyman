@@ -32,6 +32,12 @@ function storeReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 favoritePlaces: newPlaces
             })
+        // case 'MOVE_ITEM_UP':
+        //   let tempRoute =
+        //   return Object.assign({}, state, {
+        //     route: []
+        //   })
+        // case 'MOVE_ITEM_DOWN':
         case 'LOGOUT':
             return Object.assign({route: []})
         default:
