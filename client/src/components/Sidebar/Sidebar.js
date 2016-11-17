@@ -7,7 +7,7 @@ import RouteItem from './RouteItem';
 class Sidebar extends Component {
     render() {
         return (
-            <div className="Sidebar-container">
+            <div className="Sidebar-container selected">
                 <Autocomplete style={{
                     width: '90%'
                 }} onPlaceSelected={(place) => {
@@ -34,22 +34,18 @@ class Sidebar extends Component {
                         </label>
                     </div>
                 </form>
-
-                {this.props.route
-                    ? this.props.route.map((place) => {
-                        return <RouteItem key={this.props.route.indexOf(place)} handleDelete={this.props.handleDelete} handleClick={this.props.handleClick} moveItemUp={this.props.moveItemUp} moveItemDown={this.props.moveItemDown} index={this.props.route.indexOf(place)} first={this.props.route.indexOf(place) === 0
-                            ? true
-                            : false} last={this.props.route.indexOf(place) === this.props.route.length - 1
-                            ? true
-                            : false} name={place.name}/>
-                    })
-                    : null}
+                <div className='route'>
+                  {this.props.route
+                      ? this.props.route.map((place) => {
+                          return <RouteItem key={this.props.route.indexOf(place)} handleDelete={this.props.handleDelete} handleClick={this.props.handleClick} moveItemUp={this.props.moveItemUp} moveItemDown={this.props.moveItemDown} index={this.props.route.indexOf(place)} first={this.props.route.indexOf(place) === 0
+                              ? true
+                              : false} last={this.props.route.indexOf(place) === this.props.route.length - 1
+                              ? true
+                              : false} name={place.name}/>
+                      })
+                      : null}
+                </div>
                 <button className="saveTripButton" onClick={() => this.props.saveTrip()}>Save Trip</button>
-                <button className='toggleButton' onClick={() => {
-                    this.props.handleOptimize()
-                }}>{this.props.optimize
-                        ? 'Unoptimize stops'
-                        : 'Optimize stops'}</button>
             </div>
         );
     }

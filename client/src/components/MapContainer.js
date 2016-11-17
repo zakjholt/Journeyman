@@ -17,8 +17,7 @@ class MapContainer extends Component {
                   ? firstPoint
                   : lastPoint,
               travelMode: 'DRIVING',
-              waypoints: waypoints,
-              optimizeWaypoints: nextProps.optimize
+              waypoints: waypoints
           };
           directionsService.route(request, (result, status) => {
               if (status === 'OK') {

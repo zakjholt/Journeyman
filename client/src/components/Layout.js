@@ -6,6 +6,7 @@ import Sidebar from './Sidebar/Sidebar';
 import MapContainer from './MapContainer';
 import POIBar from './POIBar';
 import MyTrips from './MyTrips';
+import MobileBar from './MobileBar';
 
 class Layout extends Component {
 
@@ -15,7 +16,6 @@ class Layout extends Component {
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
-        this.handleOptimize = this.handleOptimize.bind(this);
         this.saveTrip = this.saveTrip.bind(this);
         this.closeTrips = this.closeTrips.bind(this);
         this.selectTrip = this.selectTrip.bind(this);
@@ -33,7 +33,6 @@ class Layout extends Component {
             selectedCityLocation: undefined,
             route: this.props.route,
             favoritePlaces: this.props.favoritePlaces,
-            optimize: false,
             loggedIn: localStorage.userToken
                 ? true
                 : false,
@@ -57,13 +56,6 @@ class Layout extends Component {
     handleClick(index) {
         this.setState({selectedCityLocation: this.props.route[index].formatted_address, selectedCity: this.props.route[index].name});
 
-    }
-
-    handleOptimize() {
-        console.log('handling optimize')
-        this.setState({
-            optimize: !this.state.optimize
-        })
     }
 
     handleDelete(index) {
@@ -212,10 +204,11 @@ class Layout extends Component {
 
                     </ul>
                 </div>
-                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} moveItemUp={this.moveItemUp} moveItemDown={this.moveItemDown} handleDelete={this.handleDelete} handleOptimize={this.handleOptimize} optimize={this.state.optimize} saveTrip={this.saveTrip}/>
-                <MapContainer circuit={this.state.circuit} route={this.state.route} center={this.state.center} optimize={this.state.optimize}/>
+                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} moveItemUp={this.moveItemUp} moveItemDown={this.moveItemDown} handleDelete={this.handleDelete} saveTrip={this.saveTrip}/>
+                <MapContainer circuit={this.state.circuit} route={this.state.route} center={this.state.center} />
                 <POIBar city={this.state.selectedCity} location={this.state.selectedCityLocation} favoritePlaces={this.state.favoritePlaces} toggleFavorite={this.toggleFavorite}/>
                 <MyTrips isOpen={this.state.tripsOpen} closeTrips={this.closeTrips} trips={this.state.userTrips} selectTrip={this.selectTrip} deleteTrip={this.deleteTrip}/>
+                <MobileBar />
             </div>
         );
 
