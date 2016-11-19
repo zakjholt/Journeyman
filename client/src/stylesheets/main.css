@@ -8,12 +8,6 @@ h1, h2, h3, h4, h5 {
 }
 
 
-/*button {
-    background: azure;
-    box-shadow: 0 0 10px 1px;
-}*/
-
-
 /*********************
 Header
 *********************/
@@ -84,9 +78,19 @@ Sidebar
     left: 0;
 }
 
+.route {
+    width: 100%;
+    height: 600px;
+    overflow-y: scroll;
+}
+
 .saveTripButton {
     display: block;
-    margin: 200px auto 10px;
+    margin: 10px auto 10px;
+}
+
+.upButton, .downButton {
+    margin: 5px;
 }
 
 
@@ -150,4 +154,44 @@ My Trips
     background: black;
     color: white;
     cursor: pointer;
+}
+
+
+/*********************
+Mobile
+*********************/
+
+.MobileBar {
+    display: none;
+}
+
+@media (max-width: 680px) {
+    .Sidebar-container, .Map-container, .POIBar-container {
+        display: none;
+    }
+    .selected {
+        width: 100%;
+        display: block;
+    }
+    .MobileBar {
+        display: block;
+        width: 100%;
+        background-color: #308d6c;
+    }
+    .MobileBarItem {
+        width: 33.33%;
+        height: 50px;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        border-left: 1px solid white;
+        border-right: 1px solid white;
+    }
+    .MobileBarItem:hover {
+        background: #6a880c;
+        cursor: pointer;
+    }
+    .SelectedBarItem {
+        background: #6a880c;
+    }
 }
