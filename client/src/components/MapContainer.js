@@ -57,7 +57,7 @@ class MapContainer extends Component {
         this.directionsDisplay = new window.google.maps.DirectionsRenderer();
         this.map = new window.google.maps.Map(this.refs.map, {
             center: this.props.center,
-            zoom: 5
+            zoom: 13
         });
         if (this.props.route.length > 0) {
             this.renderDirections(this.props)
