@@ -32,7 +32,7 @@ class RouteItem extends Component {
         if (this.props.first) {
             movement = (
                 <div>
-                    <button className='downButton' onClick={() => {
+                    <button className='downButton btn' onClick={() => {
                         this.props.moveItemDown(this.props.index)
                     }}>&darr;</button>
                 </div>
@@ -40,7 +40,7 @@ class RouteItem extends Component {
         } else if (this.props.last) {
             movement = (
                 <div>
-                    <button className='upButton' onClick={() => {
+                    <button className='upButton btn' onClick={() => {
                         this.props.moveItemUp(this.props.index)
                     }}>&uarr;</button>
                 </div>
@@ -49,11 +49,11 @@ class RouteItem extends Component {
         } else {
             movement = (
                 <div>
-                    <button className='upButton' onClick={(event) => {
+                    <button className='upButton btn' onClick={(event) => {
                         event.preventDefault();
                         this.props.moveItemUp(this.props.index)
                     }}>&uarr;</button>
-                    <button className='downButton' onClick={(event) => {
+                    <button className='downButton btn' onClick={(event) => {
                         event.preventDefault();
                         this.props.moveItemDown(this.props.index)
                     }}>&darr;</button>
@@ -66,7 +66,7 @@ class RouteItem extends Component {
                     this.props.handleClick(this.props.index);
                     this.goToPOIs();
                 }}>{this.props.name}</h3>
-                <button className='deleteButton' onClick={() => {
+                <button className='deleteButton btn' onClick={() => {
                     this.props.handleDelete(this.props.index)
                 }}>X</button>
                 {movement}
