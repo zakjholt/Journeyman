@@ -93,9 +93,9 @@ app.get('/trips/:clientID', (req, res) => {
     })
 })
 
-//User devares a trip
+//User delete a trip
 
-app.devare('/trips/:clientID/:tripIndex', (req, res) => {
+app.delete('/trips/:clientID/:tripIndex', (req, res) => {
     User.findOne({
         'clientID': req.params.clientID
     }, (err, user) => {
