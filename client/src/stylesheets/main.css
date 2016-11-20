@@ -225,6 +225,7 @@ Mobile
         color: white;
         border-left: 1px solid white;
         border-right: 1px solid white;
+        padding: 15px;
     }
     .MobileBarItem:hover {
         background: #6a880c;
