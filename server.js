@@ -1,8 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
-const mongoose = require('mongoose');
+var express = require('express');
+var bodyParser = require('body-parser');
+var fs = require('fs');
+var path = require('path');
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://journey:far@ds031597.mlab.com:31597/journeyman');
 
 //Mongo and Mongoose Setup
@@ -14,7 +14,7 @@ var User = mongoose.model('User', {
 })
 
 //Express setup
-const app = express();
+var app = express();
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -29,8 +29,8 @@ app.get('/', (req, res) => {
 
 //User calls a save trip
 app.post('/trips', (req, res) => {
-    let clientID = req.body.clientID;
-    let trip = {
+    var clientID = req.body.clientID;
+    var trip = {
         tripName: req.body.tripName,
         route: req.body.route
     }
@@ -40,7 +40,7 @@ app.post('/trips', (req, res) => {
         if (err)
             return handleError(err);
         if (user) { //If a user is found matching the id
-            let existing = false;
+            var existing = false;
             // checks to see if the user already has a trip by that name.
             user.trips.forEach((item) => {
                 if (item.tripName === trip.tripName) {
@@ -53,7 +53,7 @@ app.post('/trips', (req, res) => {
             }
             // Handle the favorite places
             if (user.favoritePlaces != req.body.favoritePlaces) {
-                let difference = [];
+                var difference = [];
                 req.body.favoritePlaces.forEach((place) => {
                     if (user.favoritePlaces.indexOf(place) === -1) {
                         difference.push(place)
@@ -81,7 +81,7 @@ app.post('/trips', (req, res) => {
 
 //User accesses 'my trips'
 app.get('/trips/:clientID', (req, res) => {
-    let trips;
+    var trips;
     User.findOne({
         'clientID': req.params.clientID
     }, (err, user) => {
@@ -93,9 +93,9 @@ app.get('/trips/:clientID', (req, res) => {
     })
 })
 
-//User deletes a trip
+//User devares a trip
 
-app.delete('/trips/:clientID/:tripIndex', (req, res) => {
+app.devare('/trips/:clientID/:tripIndex', (req, res) => {
     User.findOne({
         'clientID': req.params.clientID
     }, (err, user) => {
