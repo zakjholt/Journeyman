@@ -23,6 +23,7 @@ class Layout extends Component {
         this.moveItemUp = this.moveItemUp.bind(this);
         this.moveItemDown = this.moveItemDown.bind(this);
         this.toggleFavorite = this.toggleFavorite.bind(this);
+        this.addDistance = this.addDistance.bind(this);
         this.state = {
             center: {
                 lat: 40,
@@ -37,7 +38,8 @@ class Layout extends Component {
                 ? true
                 : false,
             tripsOpen: false,
-            userTrips: []
+            userTrips: [],
+            totalDistance: 0
         }
 
     }
@@ -137,6 +139,15 @@ class Layout extends Component {
         this.forceUpdate();
     }
 
+    addDistance(legs) {
+        let total = 0
+        legs.forEach((leg) => {
+            total += leg.distance.value
+        })
+        total *= .00062137 //Convert from meters to miles
+        this.setState({totalDistance: total})
+    }
+
     componentWillReceiveProps(nextProps) {
         this.setState({route: nextProps.route, favoritePlaces: nextProps.favoritePlaces})
     }
@@ -204,8 +215,8 @@ class Layout extends Component {
 
                     </ul>
                 </div>
-                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} moveItemUp={this.moveItemUp} moveItemDown={this.moveItemDown} handleDelete={this.handleDelete} saveTrip={this.saveTrip}/>
-                <MapContainer circuit={this.state.circuit} route={this.state.route} center={this.state.center} />
+                <Sidebar handleClick={this.handleClick} circuit={this.state.circuit} route={this.state.route} handleSubmit={this.handleSubmit} handleOptionChange={this.handleOptionChange} moveItemUp={this.moveItemUp} moveItemDown={this.moveItemDown} handleDelete={this.handleDelete} saveTrip={this.saveTrip} totalDistance={this.state.totalDistance} />
+                <MapContainer circuit={this.state.circuit} route={this.state.route} center={this.state.center} addDistance={this.addDistance} />
                 <POIBar city={this.state.selectedCity} location={this.state.selectedCityLocation} favoritePlaces={this.state.favoritePlaces} toggleFavorite={this.toggleFavorite}/>
                 <MyTrips isOpen={this.state.tripsOpen} closeTrips={this.closeTrips} trips={this.state.userTrips} selectTrip={this.selectTrip} deleteTrip={this.deleteTrip}/>
                 <MobileBar />

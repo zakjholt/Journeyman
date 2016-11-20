@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const path = require('path');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://journey:far@ds031597.mlab.com:31597/journeyman');
 

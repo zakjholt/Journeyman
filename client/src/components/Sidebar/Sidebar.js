@@ -5,6 +5,17 @@ import Autocomplete from 'react-google-autocomplete';
 import RouteItem from './RouteItem';
 
 class Sidebar extends Component {
+    constructor(props) {
+        super(props)
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        let gasUsed = Math.round((this.props.totalDistance / event.target.value))
+        // this.setState({gasUsed: gasUsed})
+        document.getElementById('gasUsed').innerText = `Estimated ${gasUsed} gallons of gas`
+    }
+
     render() {
         return (
             <div className="Sidebar-container selected">
@@ -45,7 +56,13 @@ class Sidebar extends Component {
                       })
                       : null}
                 </div>
-                <button className="saveTripButton" onClick={() => this.props.saveTrip()}>Save Trip</button>
+                <div>
+                    <p>Total Distance: {Math.round(this.props.totalDistance)} miles</p>
+                    <input type="number" placeholder="Estimated mpg" onChange={this.handleChange} />
+                    <p id="gasUsed"></p>
+                    <button className="saveTripButton btn" onClick={() => this.props.saveTrip()}>Save Trip</button>
+                </div>
+                
             </div>
         );
     }

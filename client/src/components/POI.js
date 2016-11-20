@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 
 class POI extends Component {
+   
     render() {
         return (
             <div className="POI">
-                <h4>{this.props.number}. {this.props.place.name}</h4>
+                <h4>{this.props.number}. <a target='_blank' href={`http://foursquare.com/venue/${this.props.place.id}`}>{this.props.place.name}</a></h4>
                 <p>
                     <em>{this.props.place.categories[0].name}</em>
                 </p>

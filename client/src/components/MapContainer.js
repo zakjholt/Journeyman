@@ -23,7 +23,7 @@ class MapContainer extends Component {
               if (status === 'OK') {
                   this.directionsDisplay.setDirections(result);
                   // Result has all of the route details like distance
-                  // console.log(result)
+                  this.props.addDistance(result.routes[0].legs)
               }
           })
           this.directionsDisplay.setMap(this.map);
